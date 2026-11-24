@@ -12,6 +12,7 @@ let sliderPct = 50;
 let activeCategory = "all";
 let searchQuery = "";
 let filteredGallery = [];
+let galleryOpen = false;
 let lightboxIdx = -1;
 
 const $ = (id) => document.getElementById(id);
@@ -232,11 +233,69 @@ function updateCompareImages() {
   $("scene-subtitle").textContent = sc.subtitle;
 }
 
-/* ===== GALLERY + LIGHTBOX ===== */
+/* ===== GALLERY MODAL + PREVIEW + LIGHTBOX ===== */
+function openGalleryModal() {
+  galleryOpen = true;
+  $("gallery-modal").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  renderGalleryGrid();
+}
+
+function closeGalleryModal() {
+  galleryOpen = false;
+  $("gallery-modal").classList.add("hidden");
+  if (lightboxIdx < 0) document.body.style.overflow = "";
+}
+
 function setupGallery() {
   const all = DATA.gallery || [];
   $("gallery-total").textContent = all.length;
   $("nav-gallery-count").textContent = all.length;
+  if ($("btn-gallery-count")) $("btn-gallery-count").textContent = all.length;
+  if ($("gm-count")) $("gm-count").textContent = all.length;
+
+  // Render compact 6-tile preview strip on main page (5 diverse featured shots + "+N More" tile)
+  const wantCats = ["gameplay", "water", "ui", "highres", "playtest"];
+  const preview = [];
+  for (const c of wantCats) {
+    const match = all.find((x) => x.category === c && !preview.includes(x));
+    if (match) preview.push(match);
+  }
+  for (const x of all) { if (preview.length >= 5) break; if (!preview.includes(x)) preview.push(x); }
+  const remaining = Math.max(0, all.length - preview.length);
+  $("gallery-preview-grid").innerHTML = preview.map((item) => {
+    const realIdx = all.indexOf(item);
+    return `
+    <div class="preview-tile" data-pidx="${realIdx}" tabindex="0" title="${item.title}">
+      <img src="${item.src}" alt="${item.title}" loading="lazy" decoding="async" />
+      <div class="preview-tile-label">${item.title}</div>
+    </div>
+  `;
+  }).join("") + `
+    <button class="preview-tile preview-tile-more" id="preview-more-btn">
+      <div>+${remaining} More<br><span class="small muted">Open Full View</span></div>
+    </button>
+  `;
+
+  $("gallery-preview-grid").querySelectorAll("[data-pidx]").forEach((tile) => {
+    const open = () => {
+      activeCategory = "all";
+      searchQuery = "";
+      if ($("gallery-search")) $("gallery-search").value = "";
+      filteredGallery = [...all];
+      openLightbox(Number(tile.dataset.pidx));
+    };
+    tile.addEventListener("click", open);
+    tile.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
+
+  $("open-gallery-btn")?.addEventListener("click", openGalleryModal);
+  $("preview-more-btn")?.addEventListener("click", openGalleryModal);
+  $("close-gallery-btn")?.addEventListener("click", closeGalleryModal);
+  $("nav-open-gallery")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    openGalleryModal();
+  });
 
   const counts = { all: all.length };
   for (const item of all) counts[item.category] = (counts[item.category] || 0) + 1;
@@ -262,19 +321,22 @@ function setupGallery() {
     renderGalleryGrid();
   });
 
-  // Lightbox events
+  // Lightbox & Gallery Escape events
   $("lb-close").addEventListener("click", closeLightbox);
   $("lb-backdrop").addEventListener("click", closeLightbox);
   $("lb-prev").addEventListener("click", () => stepLightbox(-1));
   $("lb-next").addEventListener("click", () => stepLightbox(1));
   document.addEventListener("keydown", (e) => {
-    if (lightboxIdx < 0) return;
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowLeft") stepLightbox(-1);
-    if (e.key === "ArrowRight") stepLightbox(1);
+    if (lightboxIdx >= 0) {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") stepLightbox(-1);
+      if (e.key === "ArrowRight") stepLightbox(1);
+      return;
+    }
+    if (galleryOpen && e.key === "Escape") closeGalleryModal();
   });
 
-  renderGalleryGrid();
+  filteredGallery = [...all];
 }
 
 function renderGalleryGrid() {
@@ -320,7 +382,7 @@ function openLightbox(idx) {
 function closeLightbox() {
   lightboxIdx = -1;
   $("lightbox").classList.add("hidden");
-  document.body.style.overflow = "";
+  if (!galleryOpen) document.body.style.overflow = "";
 }
 
 function stepLightbox(dir) {

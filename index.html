@@ -22,7 +22,7 @@
       </a>
       <nav class="nav">
         <a href="#visuals">Compare</a>
-        <a href="#gallery">Gallery <span class="nav-count" id="nav-gallery-count">57</span></a>
+        <a href="#gallery" id="nav-open-gallery">Gallery <span class="nav-count" id="nav-gallery-count">57</span></a>
         <a href="#presets">Presets</a>
         <a href="#scaling">Scaling &amp; 4K</a>
         <a href="#benchmarks">Benchmarks</a>
@@ -147,26 +147,25 @@
       </div>
     </section>
 
-    <!-- FULL SCREENSHOT ARCHIVE GALLERY -->
+    <!-- COMPACT GALLERY PREVIEW (OPENS FULL VIEW) -->
     <section class="section" id="gallery">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="eyebrow">Full Development &amp; Playtest Archive</div>
-            <h2>Screenshot Gallery (<span id="gallery-total">52</span> Captures)</h2>
+            <h2>Screenshot Gallery (<span id="gallery-total">57</span> Captures)</h2>
             <p class="section-desc">
-              Every major capture across our optimization runs, quality presets, live playtests, water shader phases, pixel-diff parity maps, and lobby/wardrobe sessions. Click any shot to inspect full-screen.
+              A quick preview of our best shots. Open the dedicated full-screen gallery view anytime to browse, filter, and search all 57 captures — and close it to get right back to the benchmarks.
             </p>
           </div>
-          <div class="gallery-search-wrap">
-            <input type="search" id="gallery-search" class="search-input" placeholder="Search shots (e.g. harbor, firefight, low, wardrobe…)" aria-label="Search screenshots" />
-          </div>
+          <button class="primary-btn" id="open-gallery-btn">
+            <span>Open Full Gallery (<span id="btn-gallery-count">57</span>)</span>
+            <span aria-hidden="true">↗</span>
+          </button>
         </div>
 
-        <div class="filter-bar" id="gallery-filters"></div>
-
-        <div class="gallery-grid" id="gallery-grid">
-          <!-- Populated dynamically from data.json -->
+        <div class="gallery-preview-grid" id="gallery-preview-grid">
+          <!-- 6 featured shots populated from data.json -->
         </div>
       </div>
     </section>
@@ -578,6 +577,30 @@
       </div>
     </section>
   </main>
+
+  <!-- DEDICATED FULL-SCREEN GALLERY VIEW -->
+  <div class="gallery-modal hidden" id="gallery-modal" role="dialog" aria-modal="true" aria-label="Full screenshot gallery">
+    <div class="gm-header">
+      <div class="gm-header-inner">
+        <div class="gm-title-group">
+          <h2>Screenshot Archive <span class="nav-count" id="gm-count">57</span></h2>
+          <span class="muted small">Click any shot to zoom full-screen • Press Esc to close</span>
+        </div>
+        <div class="gm-controls">
+          <input type="search" id="gallery-search" class="search-input" placeholder="Search shots (harbor, firefight, low, wardrobe…)" aria-label="Search screenshots" />
+          <button class="close-view-btn" id="close-gallery-btn">✕ Close Gallery</button>
+        </div>
+      </div>
+      <div class="gm-filters-wrap">
+        <div class="filter-bar" id="gallery-filters"></div>
+      </div>
+    </div>
+    <div class="gm-body">
+      <div class="container">
+        <div class="gallery-grid" id="gallery-grid"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- FULLSCREEN LIGHTBOX -->
   <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
