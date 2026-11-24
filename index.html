@@ -405,7 +405,7 @@
         <div class="panel-card" style="margin-top: 20px;">
           <div class="panel-head">
             <h3>Targeted Stress Tests: Plane Ride, Storm Phase &amp; Gunfight (2× Interleaved A/B)</h3>
-            <span class="status-pill done">Plane 1% Low +21.7%</span>
+            <span class="status-pill done">Storm Hitch −95.1% (514 → 25 ms)</span>
           </div>
           <p class="muted small">Direct head-to-head on RTX 5060 (1080p High, uncapped) testing the post-fix <code>optimization</code> build against <code>main</code> under live match stress.</p>
           <div class="table-scroll" style="margin-top: 12px;">
@@ -429,13 +429,13 @@
                   <td class="mono">60.5 → 62.1</td>
                   <td class="mono">12.0 → <strong>8.5</strong> <span class="delta-pill delta-pos">-29%</span></td>
                 </tr>
-                <tr>
+                <tr class="highlight-row">
                   <td><strong>Storm Phase 1 Start &amp; Flash</strong></td>
-                  <td class="mono">119.3 → <strong>121.0</strong> <span class="delta-pill delta-pos">+1.4%</span></td>
-                  <td class="mono">17.6 → <strong>18.5</strong> <span class="delta-pill delta-pos">+5.1%</span></td>
-                  <td class="mono">11.25 → <strong>10.8</strong> <span class="delta-pill delta-pos">-4.0%</span></td>
-                  <td class="mono">514.0 → 505.2*</td>
-                  <td class="mono">5.0 → 5.0</td>
+                  <td class="mono">119.3 → <strong>130.7</strong> <span class="delta-pill delta-pos">+9.6%</span></td>
+                  <td class="mono">17.6 → <strong>76.6</strong> <span class="delta-pill delta-pos">+335%</span></td>
+                  <td class="mono">11.25 → <strong>10.7</strong> <span class="delta-pill delta-pos">-4.9%</span></td>
+                  <td class="mono">514.0 → <strong>25.3</strong> <span class="delta-pill delta-pos">-95.1%</span></td>
+                  <td class="mono">5.0 → <strong>1.5</strong> <span class="delta-pill delta-pos">0 &gt;33ms</span></td>
                 </tr>
                 <tr>
                   <td><strong>Heavy Gunfight Stress (15s)</strong></td>
@@ -449,7 +449,7 @@
             </table>
           </div>
           <p class="muted small" style="margin-top: 10px;">
-            *Both branches still hit one ~505 ms single-frame spike the very first time Storm Phase 1 renders if a player clicks Play before background <code>prewarmMatch</code> finishes compiling the storm raymarching shader — next target to precompile behind the loading screen.
+            <strong>Storm Phase 1 fix verified:</strong> Precompiling and 4×4 warm-drawing the 6-octave storm raymarching shader + 64³ 3D noise texture behind the loading screen cut Storm Phase 1 max hitch from <strong>514 ms → 25.3 ms (−95.1%)</strong> and lifted 1% low from <strong>17.6 → 76.6 FPS (+335%)</strong> with zero frames over 33.3 ms.
           </p>
         </div>
 
