@@ -404,6 +404,57 @@
         </div>
         <div class="panel-card" style="margin-top: 20px;">
           <div class="panel-head">
+            <h3>Targeted Stress Tests: Plane Ride, Storm Phase &amp; Gunfight (2× Interleaved A/B)</h3>
+            <span class="status-pill done">Plane 1% Low +21.7%</span>
+          </div>
+          <p class="muted small">Direct head-to-head on RTX 5060 (1080p High, uncapped) testing the post-fix <code>optimization</code> build against <code>main</code> under live match stress.</p>
+          <div class="table-scroll" style="margin-top: 12px;">
+            <table class="data-table compact-table">
+              <thead>
+                <tr>
+                  <th>Stress Scenario</th>
+                  <th>Avg FPS (Main → Opt)</th>
+                  <th>1% Low FPS</th>
+                  <th>P99 Frame (ms)</th>
+                  <th>Max Hitch (ms)</th>
+                  <th>Frames &gt;16.7ms</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="highlight-row">
+                  <td><strong>Plane Ride (Warm-Up → Plane)</strong></td>
+                  <td class="mono">123.7 → <strong>128.3</strong> <span class="delta-pill delta-pos">+3.7%</span></td>
+                  <td class="mono">35.1 → <strong>42.7</strong> <span class="delta-pill delta-pos">+21.7%</span></td>
+                  <td class="mono">17.3 → <strong>13.8</strong> <span class="delta-pill delta-pos">-20.2%</span></td>
+                  <td class="mono">60.5 → 62.1</td>
+                  <td class="mono">12.0 → <strong>8.5</strong> <span class="delta-pill delta-pos">-29%</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Storm Phase 1 Start &amp; Flash</strong></td>
+                  <td class="mono">119.3 → <strong>121.0</strong> <span class="delta-pill delta-pos">+1.4%</span></td>
+                  <td class="mono">17.6 → <strong>18.5</strong> <span class="delta-pill delta-pos">+5.1%</span></td>
+                  <td class="mono">11.25 → <strong>10.8</strong> <span class="delta-pill delta-pos">-4.0%</span></td>
+                  <td class="mono">514.0 → 505.2*</td>
+                  <td class="mono">5.0 → 5.0</td>
+                </tr>
+                <tr>
+                  <td><strong>Heavy Gunfight Stress (15s)</strong></td>
+                  <td class="mono">82.9 → 81.6 <span class="delta-pill delta-neu">-1.6%</span></td>
+                  <td class="mono">42.6 → 32.5 <span class="delta-pill delta-neg">-23.7%</span></td>
+                  <td class="mono">17.2 → 28.3 <span class="delta-pill delta-neg">+64%</span></td>
+                  <td class="mono">31.4 → 33.4 (0 &gt;50ms)</td>
+                  <td class="mono">13.5 → 26.0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted small" style="margin-top: 10px;">
+            *Both branches still hit one ~505 ms single-frame spike the very first time Storm Phase 1 renders if a player clicks Play before background <code>prewarmMatch</code> finishes compiling the storm raymarching shader — next target to precompile behind the loading screen.
+          </p>
+        </div>
+
+        <div class="panel-card" style="margin-top: 20px;">
+          <div class="panel-head">
             <h3>Startup &amp; Procedural World Generation (Cold Cache, Mean of 3)</h3>
             <span class="status-pill done">-97.2% Cloud Shadow Bake</span>
           </div>
