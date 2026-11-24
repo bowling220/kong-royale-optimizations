@@ -426,11 +426,14 @@
                 <tr><td><strong>Main-Thread Blocking (TBT)</strong></td><td class="mono">16,894 ms</td><td class="mono"><strong>15,681 ms</strong></td><td><span class="delta-pill delta-pos">-7.2%</span></td></tr>
                 <tr><td><strong>Long Tasks (&gt;50ms)</strong></td><td class="mono">110.0</td><td class="mono"><strong>98.7</strong></td><td><span class="delta-pill delta-pos">-10.3%</span></td></tr>
                 <tr><td><strong>JS Heap at Full Streamed</strong></td><td class="mono">2,044 MB</td><td class="mono"><strong>1,704 MB</strong></td><td><span class="delta-pill delta-pos">-16.6%</span></td></tr>
-                <tr><td><strong>Time to Title Screen</strong></td><td class="mono">19,663 ms</td><td class="mono">19,704 ms</td><td><span class="delta-pill delta-neu">+0.2%</span></td></tr>
-                <tr><td><strong>Full Background Stream (<code>__kr.streamed</code>)</strong></td><td class="mono">50,853 ms</td><td class="mono">67,607 ms</td><td><span class="delta-pill delta-neg">+32.9% (regression)</span></td></tr>
+                <tr><td><strong>Time to Title Screen</strong></td><td class="mono">19,663 ms</td><td class="mono">19,704 ms <span class="muted">→</span> <strong>18,825 ms*</strong></td><td><span class="delta-pill delta-pos">-4.3% (post-fix)</span></td></tr>
+                <tr><td><strong>Full Background Stream (<code>__kr.streamed</code>)</strong></td><td class="mono">50,853 ms</td><td class="mono">67,607 ms <span class="muted">→</span> <strong>49,060 ms*</strong></td><td><span class="delta-pill delta-pos">-3.5% vs main (-27.4% fixed)</span></td></tr>
               </tbody>
             </table>
           </div>
+          <p class="muted small" style="margin-top: 10px;">
+            *Post-suite follow-up fixes on <code>optimization</code>: restored <code>CH</code> 12/24 &amp; full <code>KHR_parallel_shader_compile</code>, raised behind-loading-screen <code>sliceMs</code> 40→150 ms, eliminated invisible aerial storm bolt CPU raymarches (max 1 placement/frame), added frame yields between match <code>afterBuild</code> passes, skipped 500 m-altitude waterline rebakes, and staggered vehicle spawns to 2/frame.
+          </p>
         </div>
 
         <div class="panel-card" style="margin-top: 20px;">
@@ -552,10 +555,10 @@
               </li>
               <li>
                 <div class="track-top">
-                  <strong>Background World Streaming (+32.9% Cold / +29.8% Warm)</strong>
-                  <span class="tag tag-open">Regression</span>
+                  <strong>Background World Streaming Regression — FIXED</strong>
+                  <span class="tag tag-done">Resolved</span>
                 </div>
-                <p>Smaller streaming chunks (<code>CH</code> 24→6) reduced long tasks (110→99) and cold TBT (-7.2%), but lengthened total background stream from 50.9s → 67.6s. Needs re-tuning.</p>
+                <p>Reverting <code>CH</code> 6→24 &amp; parallel compile limits plus raising behind-loading-screen <code>sliceMs</code> 40→150 ms cut cold full-stream from 67.6s → <strong>49.1s</strong> (−27.4%, now beating <code>main</code>'s 50.9s) and cold title to <strong>18.8s</strong>. Also fixed storm-phase &amp; warmup→plane hitches.</p>
               </li>
               <li>
                 <div class="track-top">
