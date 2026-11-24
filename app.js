@@ -47,12 +47,13 @@ function fmtBytes(bytes) {
 }
 
 async function init() {
-  const res = await fetch("data.json?v=2");
+  const res = await fetch("data.json?v=3");
   DATA = await res.json();
 
   renderHeaderAndKpis();
   setupComparator();
   setupGallery();
+  renderScalingAndWater();
   renderBenchmarks();
   renderBudgets();
 }
@@ -338,6 +339,58 @@ function updateLightbox() {
   $("lb-desc").textContent = item.desc;
   $("lb-counter").textContent = `${lightboxIdx + 1} / ${filteredGallery.length}`;
   $("lb-open").href = item.src;
+}
+
+/* ===== SCALING, WATER A/B & MULTIPLAYER ===== */
+function renderScalingAndWater() {
+  if (DATA.scaling && $("scaling-tbody")) {
+    $("scaling-tbody").innerHTML = DATA.scaling.map((row) => `
+      <tr class="${row.tag === "res-2160p" ? "highlight-row" : ""}">
+        <td><strong>${row.label}</strong></td>
+        <td class="mono">${row.main.avgFps.toFixed(1)}</td>
+        <td class="mono"><strong>${row.optimization.avgFps.toFixed(1)}</strong></td>
+        <td>${fmtDelta(row.main.avgFps, row.optimization.avgFps)}</td>
+        <td class="mono">${row.main.low1Fps.toFixed(1)} → ${row.optimization.low1Fps.toFixed(1)} ${fmtDelta(row.main.low1Fps, row.optimization.low1Fps)}</td>
+        <td class="mono">${row.main.gpuMs.toFixed(2)} → ${row.optimization.gpuMs.toFixed(2)}</td>
+        <td>${fmtDelta(row.main.gpuMs, row.optimization.gpuMs, true)}</td>
+      </tr>
+    `).join("");
+  }
+
+  if (DATA.waterBench && $("water-tbody")) {
+    $("water-tbody").innerHTML = DATA.waterBench.map((w) => `
+      <tr>
+        <td><strong>${w.label}</strong></td>
+        <td class="mono">${w.main.avgFps.toFixed(1)} → <strong>${w.optimization.avgFps.toFixed(1)}</strong></td>
+        <td class="mono">${w.main.gpuMs.toFixed(2)} → ${w.optimization.gpuMs.toFixed(2)}</td>
+        <td>${fmtDelta(w.main.gpuMs, w.optimization.gpuMs, true)}</td>
+      </tr>
+    `).join("");
+  }
+
+  if (DATA.multiplayer && $("mp-summary")) {
+    const s = DATA.multiplayer.sockets;
+    $("mp-summary").innerHTML = [
+      { phase: "Server Tick Rate", stat: `${s.tickHz.opt.toFixed(2)} Hz`, meta: `50 real WS players<br>main: ${s.tickHz.main.toFixed(2)} Hz` },
+      { phase: "Snapshot Gap p50", stat: `${s.snapshotGapP50Ms.opt.toFixed(1)} ms`, meta: `p99: ${s.snapshotGapP99Ms.opt.toFixed(1)} ms<br>0 errors / drops` },
+      { phase: "Bandwidth", stat: `${(s.bytesPerPlayerS.opt / 1024).toFixed(1)} KB/s`, meta: `per player<br>59.98 inputs/s` },
+    ].map((c) => `
+      <div class="mem-box">
+        <div class="mem-phase">${c.phase}</div>
+        <div class="mem-stat">${c.stat}</div>
+        <div class="mem-meta">${c.meta}</div>
+      </div>
+    `).join("");
+
+    $("host-tbody").innerHTML = DATA.multiplayer.host.map((h) => `
+      <tr>
+        <td><code>${h.scenario}</code></td>
+        <td class="mono">${h.mainP50.toFixed(2)} → ${h.optP50.toFixed(2)}</td>
+        <td class="mono">${h.mainP99.toFixed(2)} → ${h.optP99.toFixed(2)}</td>
+        <td class="mono">${h.optSim.toFixed(3)} ms</td>
+      </tr>
+    `).join("");
+  }
 }
 
 /* ===== BENCHMARKS ===== */

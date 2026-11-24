@@ -22,15 +22,15 @@
       </a>
       <nav class="nav">
         <a href="#visuals">Compare</a>
-        <a href="#gallery">Gallery <span class="nav-count" id="nav-gallery-count">52</span></a>
+        <a href="#gallery">Gallery <span class="nav-count" id="nav-gallery-count">57</span></a>
         <a href="#presets">Presets</a>
+        <a href="#scaling">Scaling &amp; 4K</a>
         <a href="#benchmarks">Benchmarks</a>
-        <a href="#budgets">Budgets</a>
-        <a href="#roadmap">Test Queue</a>
+        <a href="#roadmap">Verdict</a>
       </nav>
-      <div class="live-pill" title="Active test sweeps are underway — live results update as runs complete">
-        <span class="pulse-dot"></span>
-        <span>Tests Running</span>
+      <div class="live-pill done-pill" title="All benchmark suites completed on RTX 5060 + Core Ultra 7 265K">
+        <span class="done-dot"></span>
+        <span>Suite Complete</span>
       </div>
     </div>
   </header>
@@ -46,8 +46,9 @@
         </div>
         <h1>How <span class="accent">Kong Royale</span> scales across quality tiers &amp; optimizations.</h1>
         <p class="hero-lead">
-          Compare <strong>Low, Medium, High, and Ultra</strong> visuals side-by-side, browse <strong>52+ real screenshots</strong>
-          captured across development, playtests, and optimization phases, inspect RTX 5060 frame-time gains, and track ongoing benchmark sweeps.
+          All benchmark suites are complete. Compare <strong>Low, Medium, High, and Ultra</strong> visuals side-by-side, browse
+          <strong>57+ real screenshots</strong> from across development and playtests, and inspect complete <strong>720p–4K scaling,
+          15-scene gameplay, water A/B, and 50-player multiplayer</strong> results between <code>main</code> and <code>optimization</code>.
         </p>
 
         <div class="kpi-grid" id="kpi-grid">
@@ -246,11 +247,11 @@
                   <td>RTX 3070+, 4070+, 5070+, RX 6800+</td>
                 </tr>
                 <tr class="highlight-row">
-                  <td><strong>RTX 5060 Gameplay Avg (14 Scenes)</strong></td>
-                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
-                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
-                  <td><strong class="gain" id="preset-high-avg">—</strong> <span class="muted small">(Measured)</span></td>
-                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                  <td><strong>RTX 5060 1080p Avg FPS (Opt)</strong></td>
+                  <td><strong class="gain">108.7 FPS</strong> <span class="muted small">(6.17ms GPU, -5.3%)</span></td>
+                  <td><strong class="gain">107.1 FPS</strong> <span class="muted small">(6.68ms GPU, -3.9%)</span></td>
+                  <td><strong class="gain" id="preset-high-avg">103.9 FPS</strong> <span class="muted small">(7.25ms GPU, -2.4%)</span></td>
+                  <td><strong class="gain">104.5 FPS</strong> <span class="muted small">(7.50ms GPU, -2.0%)</span></td>
                 </tr>
                 <tr>
                   <td><strong>Visual Captures</strong></td>
@@ -261,6 +262,85 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOLUTION & PRESET SCALING -->
+    <section class="section" id="scaling">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Completed Scaling Suite (144 Runs)</div>
+            <h2>720p → 4K Resolution, Preset &amp; 60 Hz VSync Scaling</h2>
+            <p class="section-desc">
+              Averaged across Peel Harbor, Beach/Coast, and Dense Jungle (3 interleaved runs per branch). At <strong>4K (3840×2160)</strong> where the RTX 5060 becomes cleanly GPU-bound, <code>optimization</code> delivers <strong>+8.9% Avg FPS</strong>, <strong>+50.9% 1% Low</strong>, and <strong>-9.7% GPU frame time</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Configuration</th>
+                  <th>Main FPS</th>
+                  <th>Opt FPS</th>
+                  <th>FPS Δ</th>
+                  <th>1% Low (Main → Opt)</th>
+                  <th>GPU ms (Main → Opt)</th>
+                  <th>GPU Δ</th>
+                </tr>
+              </thead>
+              <tbody id="scaling-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top: 20px;">
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>Dedicated Water A/B (Water ON)</h3>
+              <span class="status-pill done">-6% to -9.3% GPU</span>
+            </div>
+            <p class="muted small">In-match water comparison across 5 scenes (3 interleaved runs each, 0 visual regressions).</p>
+            <div class="table-scroll" style="margin-top: 12px;">
+              <table class="data-table compact-table">
+                <thead>
+                  <tr>
+                    <th>Water View</th>
+                    <th>FPS (Main → Opt)</th>
+                    <th>GPU ms</th>
+                    <th>GPU Δ</th>
+                  </tr>
+                </thead>
+                <tbody id="water-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>50-Player Multiplayer &amp; Host Sim</h3>
+              <span class="status-pill done">59.87 Hz • 0 Errors</span>
+            </div>
+            <p class="muted small">Real 50-player WebSocket server load (<code>sockets.mts</code>) + headless authoritative host (<code>host.mts</code>).</p>
+            <div class="mem-grid" id="mp-summary" style="margin-top: 14px;"></div>
+            <div class="table-scroll" style="margin-top: 14px;">
+              <table class="data-table compact-table">
+                <thead>
+                  <tr>
+                    <th>Host Scenario</th>
+                    <th>Tick p50 (ms)</th>
+                    <th>Tick p99 (ms)</th>
+                    <th>Sim Mean</th>
+                  </tr>
+                </thead>
+                <tbody id="host-tbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -361,15 +441,15 @@
       </div>
     </section>
 
-    <!-- ROADMAP & PENDING TESTS -->
+    <!-- EXECUTIVE VERDICT & NEXT PRIORITIES -->
     <section class="section" id="roadmap">
       <div class="container">
         <div class="section-head">
           <div>
-            <div class="eyebrow">Live Optimization Tracker</div>
-            <h2>Completed Wins &amp; Active Test Queue</h2>
+            <div class="eyebrow">Final Benchmark Verdict</div>
+            <h2>Verified Wins, Honest Trade-Offs &amp; What's Next</h2>
             <p class="section-desc">
-              We are actively running additional preset sweeps and hardware baselines. Verified results appear above as soon as each run completes.
+              Summary of the completed <code>main</code> vs. <code>optimization</code> suite across startup, 15 gameplay scenes, 720p–4K scaling, water A/B, and 50-player multiplayer.
             </p>
           </div>
         </div>
@@ -377,81 +457,74 @@
         <div class="two-col">
           <div class="panel-card">
             <div class="panel-head">
-              <h3>Completed &amp; Verified</h3>
-              <span class="status-pill done">Landed</span>
+              <h3>Verified Wins</h3>
+              <span class="status-pill done">Confirmed</span>
             </div>
             <ul class="track-list">
               <li>
                 <div class="track-top">
-                  <strong>PERF-01: Procedural Character Animation Budget</strong>
-                  <span class="tag tag-done">Done</span>
+                  <strong>+5.9% Mean Gameplay FPS (+12.7% Peak)</strong>
+                  <span class="tag tag-done">14 / 15 Scenes</span>
                 </div>
-                <p>Min-tier remote kongs re-pose at 30 Hz and off-screen kongs at 10 Hz while preserving rigid body tracking, shots, and shadows.</p>
+                <p>Mean in-game FPS rose 98.2 → 103.9 FPS across 15 scenes, with +12.7% in Mango Market Interiors (+24.2% 1% low) and +11.3% in Active Combat.</p>
               </li>
               <li>
                 <div class="track-top">
-                  <strong>PERF-05: Water SSR Binary Refinement</strong>
-                  <span class="tag tag-done">Done</span>
+                  <strong>4K GPU-Bound Gain: +8.9% FPS / -9.7% GPU</strong>
+                  <span class="tag tag-done">3840×2160</span>
                 </div>
-                <p>High-tier screen-space water reflections refined in 3 binary steps — cutting GPU water cost up to 11.2% with full visual parity.</p>
+                <p>At 4K High, average FPS jumped 77.3 → 84.2 FPS and 1% low improved 15.9 → 24.0 FPS (+50.9%) with GPU time dropping 11.79 → 10.65 ms.</p>
               </li>
               <li>
                 <div class="track-top">
-                  <strong>Low-Memory POI Streaming &amp; Eviction</strong>
-                  <span class="tag tag-done">Done</span>
+                  <strong>Water Rendering: -6% to -9.3% GPU Time</strong>
+                  <span class="tag tag-done">Zero Regressions</span>
                 </div>
-                <p>Model-checked with TLA+ and capped at 4 resident POIs in match to prevent OOM on constrained devices.</p>
+                <p>Underwater (-9.3%), Peel Harbor Reflections (-8.4%), Open Ocean (-8.2%), and The Murk (-6.0%) all cut GPU time and 11–16 draw calls with clean visual parity.</p>
               </li>
               <li>
                 <div class="track-top">
-                  <strong>Match-to-Match Memory Leak Fixes &amp; Context Restore</strong>
-                  <span class="tag tag-done">Done</span>
+                  <strong>60 FPS Locked + 50-Player Server Rock Solid</strong>
+                  <span class="tag tag-done">Pass</span>
                 </div>
-                <p>Resource scopes cleanly release GPU textures, buffers, and render targets between matches; CI verifies zero leak across 3 back-to-back matches.</p>
+                <p>1080p High VSync holds 59.9 FPS; 50 real WebSocket players hold 59.87 Hz with 0 disconnects, and cold-boot JS heap at full streamed dropped 2044 → 1704 MB (-16.6%).</p>
               </li>
             </ul>
           </div>
 
           <div class="panel-card">
             <div class="panel-head">
-              <h3>In-Progress Tests &amp; Open Tracks</h3>
-              <span class="status-pill pending"><span class="pulse-dot sm"></span>Running</span>
+              <h3>Honest Trade-Offs &amp; Next Priorities</h3>
+              <span class="status-pill pending">Next Phase</span>
             </div>
             <ul class="track-list">
               <li>
                 <div class="track-top">
-                  <strong>Low / Medium / Epic Full FPS &amp; Pacing Sweeps</strong>
-                  <span class="tag tag-running">Testing Now</span>
+                  <strong>Main-Thread CPU Bottleneck at 1080p (Top Priority)</strong>
+                  <span class="tag tag-running">Priority #1</span>
                 </div>
-                <p>Collecting 15-scene steady-state Avg FPS, 1% Low, and GPU/CPU frame times across Low, Medium, and Epic tiers.</p>
+                <p>Dense POIs (Interiors, Combat, Canopy, Vegetation) spend 10.7–11.8 ms/frame on JS/Three.js submission. Cutting draw-call overhead is the key to unlocking 120+ FPS at 1080p.</p>
               </li>
               <li>
                 <div class="track-top">
-                  <strong>Laptop / Integrated GPU &amp; Auto-Res Baselines</strong>
-                  <span class="tag tag-running">Testing Now</span>
+                  <strong>Background World Streaming (+32.9% Cold / +29.8% Warm)</strong>
+                  <span class="tag tag-open">Regression</span>
                 </div>
-                <p>Validating 2.7 MP / 3.9 MP auto-resolution scaling on Apple Silicon, Intel Iris Xe, and mid-range laptop GPUs.</p>
+                <p>Smaller streaming chunks (<code>CH</code> 24→6) reduced long tasks (110→99) and cold TBT (-7.2%), but lengthened total background stream from 50.9s → 67.6s. Needs re-tuning.</p>
               </li>
               <li>
                 <div class="track-top">
-                  <strong>PERF-02 &amp; PERF-03: Interaction &amp; Loot Spatial Indexing</strong>
+                  <strong>POI Traversal 1% Low (-19.5%) &amp; Underwater Floor (~16 FPS)</strong>
+                  <span class="tag tag-open">Investigate</span>
+                </div>
+                <p>Rapid 5-POI flyover 1% low dipped 43.3 → 34.9 FPS from streaming/LOD spikes, and Underwater still sees periodic spikes pulling 1% low to ~16 FPS on both branches.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>Open Tracks: PERF-02, PERF-03 &amp; PERF-04</strong>
                   <span class="tag tag-open">Queued</span>
                 </div>
-                <p>Caching per-frame HUD interaction queries and adding deterministic, allocation-free spatial lookup for loot pickups.</p>
-              </li>
-              <li>
-                <div class="track-top">
-                  <strong>PERF-04: Separate Tree &amp; Understory Splat Budgets</strong>
-                  <span class="tag tag-open">Queued</span>
-                </div>
-                <p>Independent density sweeps for canopy trees vs. understory foliage to cut jungle overdraw without crown holes.</p>
-              </li>
-              <li>
-                <div class="track-top">
-                  <strong>Cold &amp; Warm Startup Load Optimization</strong>
-                  <span class="tag tag-running">Investigating</span>
-                </div>
-                <p>Measured cold boot currently ~19.7s to title (50.8s full stream on main); reducing script eval &amp; POI build time.</p>
+                <p>HUD interaction query caching, deterministic loot spatial indexing, and separate tree vs. understory foliage splat budgets.</p>
               </li>
             </ul>
           </div>
