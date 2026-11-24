@@ -431,11 +431,11 @@
                 </tr>
                 <tr class="highlight-row">
                   <td><strong>Mass Drop &amp; Glider Deploy (49 Players)</strong></td>
-                  <td class="mono">113.9 → <strong>124.1</strong> <span class="delta-pill delta-pos">+9.0%</span></td>
-                  <td class="mono">21.9 → <strong>24.1</strong> <span class="delta-pill delta-pos">+10.0%</span></td>
-                  <td class="mono">11.9 → <strong>10.6</strong> <span class="delta-pill delta-pos">-10.9%</span></td>
-                  <td class="mono">496.1 → 498.1</td>
-                  <td class="mono">6.5 → <strong>5.0</strong> <span class="delta-pill delta-pos">-23%</span></td>
+                  <td class="mono">113.9 → <strong>129.1</strong> <span class="delta-pill delta-pos">+13.3%</span></td>
+                  <td class="mono">21.9 → <strong>25.2</strong> <span class="delta-pill delta-pos">+15.1%</span></td>
+                  <td class="mono">11.9 → <strong>10.95</strong> <span class="delta-pill delta-pos">-8.0%</span></td>
+                  <td class="mono">496.1 → <strong>478.2</strong> <span class="delta-pill delta-pos">-3.6%</span></td>
+                  <td class="mono">6.5 → <strong>4.5</strong> <span class="delta-pill delta-pos">-31%</span></td>
                 </tr>
                 <tr class="highlight-row">
                   <td><strong>Storm Phase 1 Start &amp; Flash</strong></td>
@@ -457,7 +457,7 @@
             </table>
           </div>
           <p class="muted small" style="margin-top: 10px;">
-            <strong>Storm Phase 1 fix verified:</strong> Precompiling and 4×4 warm-drawing the 6-octave storm raymarching shader + 64³ 3D noise texture behind the loading screen cut Storm Phase 1 max hitch from <strong>514 ms → 25.3 ms (−95.1%)</strong> and lifted 1% low from <strong>17.6 → 76.6 FPS (+335%)</strong> with zero frames over 33.3 ms.
+            <strong>Verified post-suite fixes:</strong> Storm Phase 1 shader precompile + 4×4 warm-draw cut max hitch from <strong>514 → 25.3 ms (−95.1%)</strong> and lifted 1% low from <strong>17.6 → 76.6 FPS (+335%)</strong> (0 frames &gt;33.3 ms). Glider prewarm, actor/glider drop staggering (max 2/frame, 320 m cull), <code>PERF-02</code> interact-prompt caching (fixed 60 Hz snapshot cache-bust), and underwater wave hysteresis lifted Mass Drop to <strong>129.1 FPS (+13.3% vs <code>main</code>)</strong>.
           </p>
         </div>
 
