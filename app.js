@@ -1,6 +1,6 @@
-// Kong Royale Optimization & Quality Lab — Interactive Dashboard
+// Kong Royale Optimization & Quality Lab — Interactive Dashboard + Full Screenshot Archive
 let DATA = null;
-let compareMode = "presets"; // "presets" | "opt"
+let compareMode = "presets"; // "presets" | "opt" | "perf"
 let activeSceneIdx = 0;
 let activeMetric = "avgFps";
 let hideTitle = true;
@@ -8,7 +8,23 @@ let sortKey = "fpsDelta";
 let sortAsc = false;
 let sliderPct = 50;
 
+// Gallery state
+let activeCategory = "all";
+let searchQuery = "";
+let filteredGallery = [];
+let lightboxIdx = -1;
+
 const $ = (id) => document.getElementById(id);
+
+const CATEGORY_LABELS = {
+  all: "All Captures",
+  gameplay: "Gameplay & Action",
+  water: "Water Optimization",
+  presets: "Quality Presets",
+  playtest: "Playtest Archive",
+  ui: "UI & Wardrobe",
+  highres: "1440p & Epic",
+};
 
 function pctDelta(before, after, lowerIsBetter = false) {
   if (!before) return 0;
@@ -31,11 +47,12 @@ function fmtBytes(bytes) {
 }
 
 async function init() {
-  const res = await fetch("data.json");
+  const res = await fetch("data.json?v=2");
   DATA = await res.json();
 
   renderHeaderAndKpis();
   setupComparator();
+  setupGallery();
   renderBenchmarks();
   renderBudgets();
 }
@@ -76,9 +93,9 @@ function renderHeaderAndKpis() {
       cls: "gain",
     },
     {
-      label: "Low-Mem POI Cap",
-      value: `${DATA.budgets.memoryLowMem.match.peakResidentPois} POIs`,
-      sub: `${DATA.budgets.memoryLowMem.match.webglMB} MB WebGL match ceiling (CI gated)`,
+      label: "Visual Archive Loaded",
+      value: `${(DATA.gallery || []).length + 44} Shots`,
+      sub: `Presets, water phases, playtests & 1440p captures`,
       cls: "",
     },
   ];
@@ -90,6 +107,12 @@ function renderHeaderAndKpis() {
       <div class="kpi-sub">${k.sub}</div>
     </div>
   `).join("");
+}
+
+function activeSceneList() {
+  if (compareMode === "presets") return DATA.presetScenes;
+  if (compareMode === "opt") return DATA.optScenes;
+  return DATA.perfScenes;
 }
 
 function setupComparator() {
@@ -159,7 +182,7 @@ function setSlider(pct) {
 }
 
 function renderScenePills() {
-  const list = compareMode === "presets" ? DATA.presetScenes : DATA.optScenes;
+  const list = activeSceneList();
   $("scene-pills").innerHTML = list.map((sc, i) => `
     <button class="scene-pill ${i === activeSceneIdx ? "active" : ""}" data-scene-idx="${i}">${sc.title}</button>
   `).join("");
@@ -173,22 +196,27 @@ function renderScenePills() {
 }
 
 function updateCompareImages() {
-  const list = compareMode === "presets" ? DATA.presetScenes : DATA.optScenes;
+  const list = activeSceneList();
   const sc = list[activeSceneIdx] || list[0];
   let leftSrc, rightSrc, leftText, rightText;
 
   if (compareMode === "presets") {
     const l = $("left-preset").value;
     const r = $("right-preset").value;
-    leftSrc = `images/presets/${l}/${sc.id}.webp`;
-    rightSrc = `images/presets/${r}/${sc.id}.webp`;
+    leftSrc = `images/presets/${l}/${sc.id}.jpg`;
+    rightSrc = `images/presets/${r}/${sc.id}.jpg`;
     leftText = l === "ultra" ? "ULTRA / EPIC" : l.toUpperCase();
     rightText = r === "ultra" ? "ULTRA / EPIC" : r.toUpperCase();
+  } else if (compareMode === "opt") {
+    leftSrc = `images/opt/${sc.id}-main.jpg`;
+    rightSrc = `images/opt/${sc.id}-optimization.jpg`;
+    leftText = "BASELINE (1080P)";
+    rightText = "WATER OPT FINAL";
   } else {
-    leftSrc = `images/opt/${sc.id}-main.webp`;
-    rightSrc = `images/opt/${sc.id}-optimization.webp`;
-    leftText = "MAIN (BASELINE)";
-    rightText = "OPTIMIZATION";
+    leftSrc = `images/perf/${sc.id}-base.jpg`;
+    rightSrc = `images/perf/${sc.id}-opt3.jpg`;
+    leftText = "PERF BASELINE";
+    rightText = "PERF OPT3";
   }
 
   $("img-left").src = leftSrc;
@@ -203,6 +231,116 @@ function updateCompareImages() {
   $("scene-subtitle").textContent = sc.subtitle;
 }
 
+/* ===== GALLERY + LIGHTBOX ===== */
+function setupGallery() {
+  const all = DATA.gallery || [];
+  $("gallery-total").textContent = all.length;
+  $("nav-gallery-count").textContent = all.length;
+
+  const counts = { all: all.length };
+  for (const item of all) counts[item.category] = (counts[item.category] || 0) + 1;
+
+  const cats = Object.keys(CATEGORY_LABELS).filter((c) => c === "all" || counts[c]);
+  $("gallery-filters").innerHTML = cats.map((c) => `
+    <button class="filter-btn ${c === activeCategory ? "active" : ""}" data-cat="${c}">
+      <span>${CATEGORY_LABELS[c]}</span>
+      <span class="filter-count">${counts[c] || 0}</span>
+    </button>
+  `).join("");
+
+  $("gallery-filters").querySelectorAll(".filter-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeCategory = btn.dataset.cat;
+      $("gallery-filters").querySelectorAll(".filter-btn").forEach((b) => b.classList.toggle("active", b === btn));
+      renderGalleryGrid();
+    });
+  });
+
+  $("gallery-search").addEventListener("input", (e) => {
+    searchQuery = e.target.value.trim().toLowerCase();
+    renderGalleryGrid();
+  });
+
+  // Lightbox events
+  $("lb-close").addEventListener("click", closeLightbox);
+  $("lb-backdrop").addEventListener("click", closeLightbox);
+  $("lb-prev").addEventListener("click", () => stepLightbox(-1));
+  $("lb-next").addEventListener("click", () => stepLightbox(1));
+  document.addEventListener("keydown", (e) => {
+    if (lightboxIdx < 0) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") stepLightbox(-1);
+    if (e.key === "ArrowRight") stepLightbox(1);
+  });
+
+  renderGalleryGrid();
+}
+
+function renderGalleryGrid() {
+  const all = DATA.gallery || [];
+  filteredGallery = all.filter((item) => {
+    if (activeCategory !== "all" && item.category !== activeCategory) return false;
+    if (!searchQuery) return true;
+    return `${item.title} ${item.tag} ${item.desc} ${item.category}`.toLowerCase().includes(searchQuery);
+  });
+
+  if (!filteredGallery.length) {
+    $("gallery-grid").innerHTML = `<div class="muted" style="grid-column:1/-1;padding:24px 0;">No screenshots match "${searchQuery}".</div>`;
+    return;
+  }
+
+  $("gallery-grid").innerHTML = filteredGallery.map((item, idx) => `
+    <article class="gallery-card" data-gidx="${idx}" tabindex="0">
+      <div class="gallery-thumb">
+        <img src="${item.src}" alt="${item.title}" loading="lazy" decoding="async" />
+        <span class="gallery-tag">${item.tag}</span>
+      </div>
+      <div class="gallery-meta">
+        <h3 class="gallery-title">${item.title}</h3>
+        <p class="gallery-desc">${item.desc}</p>
+      </div>
+    </article>
+  `).join("");
+
+  $("gallery-grid").querySelectorAll(".gallery-card").forEach((card) => {
+    const open = () => openLightbox(Number(card.dataset.gidx));
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
+}
+
+function openLightbox(idx) {
+  lightboxIdx = idx;
+  updateLightbox();
+  $("lightbox").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightboxIdx = -1;
+  $("lightbox").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+function stepLightbox(dir) {
+  if (!filteredGallery.length) return;
+  lightboxIdx = (lightboxIdx + dir + filteredGallery.length) % filteredGallery.length;
+  updateLightbox();
+}
+
+function updateLightbox() {
+  const item = filteredGallery[lightboxIdx];
+  if (!item) return;
+  $("lb-img").src = item.src;
+  $("lb-img").alt = item.title;
+  $("lb-tag").textContent = item.tag;
+  $("lb-title").textContent = item.title;
+  $("lb-desc").textContent = item.desc;
+  $("lb-counter").textContent = `${lightboxIdx + 1} / ${filteredGallery.length}`;
+  $("lb-open").href = item.src;
+}
+
+/* ===== BENCHMARKS ===== */
 function renderBenchmarks() {
   document.querySelectorAll("#metric-tabs .tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -297,6 +435,7 @@ function drawBenchTable() {
   `).join("");
 }
 
+/* ===== BUDGETS ===== */
 function renderBudgets() {
   const sz = DATA.budgets.sizeGzBytes;
   const entries = [

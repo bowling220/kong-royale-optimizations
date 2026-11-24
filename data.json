@@ -44,29 +44,34 @@
   ],
   "optScenes": [
     {
-      "id": "water-reflections",
+      "id": "water-harbor-low",
       "title": "Peel Harbor Reflections",
-      "subtitle": "Water SSR refinement parity — main vs optimization"
+      "subtitle": "Water optimization baseline vs final (1080p)"
     },
     {
-      "id": "water-open-ocean",
-      "title": "Open Ocean",
-      "subtitle": "Ocean wave shading & horizon — main vs optimization"
+      "id": "biome-01-beach",
+      "title": "Coconut Cove Beach",
+      "subtitle": "Water optimization baseline vs final (1080p)"
     },
     {
-      "id": "water-shoreline",
-      "title": "Coconut Cove Shoreline",
-      "subtitle": "Shallow water & foam transition — main vs optimization"
+      "id": "poi-09-mist-falls",
+      "title": "Mist Falls",
+      "subtitle": "Waterfall & mist baseline vs final (1080p)"
     },
     {
-      "id": "water-the-murk-water",
-      "title": "The Murk Swamp Water",
-      "subtitle": "Swamp water reflections — main vs optimization"
+      "id": "poi-13-the-murk",
+      "title": "The Murk Swamp",
+      "subtitle": "Swamp water baseline vs final (1080p)"
+    },
+    {
+      "id": "water-cove-bay",
+      "title": "Coconut Cove Bay",
+      "subtitle": "Bay shoreline & foam baseline vs final (1080p)"
     },
     {
       "id": "water-underwater",
       "title": "Underwater Reef",
-      "subtitle": "Underwater optics — main vs optimization"
+      "subtitle": "Underwater optics baseline vs final (1080p)"
     }
   ],
   "gameplay": [
@@ -555,5 +560,455 @@
         "peakResidentPois": 4
       }
     }
-  }
+  },
+  "perfScenes": [
+    {
+      "id": "char-03-firefight",
+      "title": "Kong Firefight",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    },
+    {
+      "id": "drop-05-glider",
+      "title": "Banana Glider Drop",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    },
+    {
+      "id": "poi-12-mango-market",
+      "title": "Mango Market",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    },
+    {
+      "id": "poi-01-peel-harbor",
+      "title": "Peel Harbor Docks",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    },
+    {
+      "id": "biome-02-jungle",
+      "title": "Dense Jungle",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    },
+    {
+      "id": "biome-01-beach",
+      "title": "Beach Shoreline",
+      "subtitle": "1080p High — Perf Baseline vs Opt3"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "shot-1",
+      "src": "images/gallery/shot-001.jpg",
+      "title": "Kong Firefight",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Active combat with muzzle flash, coconut debris, and storm wall."
+    },
+    {
+      "id": "shot-2",
+      "src": "images/gallery/shot-002.jpg",
+      "title": "Banana Glider Drop",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Dropping onto the island with squadmates over coastal palms."
+    },
+    {
+      "id": "shot-3",
+      "src": "images/gallery/shot-003.jpg",
+      "title": "Mango Market Plaza",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Dense town interior & market stalls (+12.6% FPS after optimization)."
+    },
+    {
+      "id": "shot-4",
+      "src": "images/gallery/shot-004.jpg",
+      "title": "Peel Harbor Container Yard",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Industrial shipping cranes and cargo containers."
+    },
+    {
+      "id": "shot-5",
+      "src": "images/gallery/shot-005.jpg",
+      "title": "Jungle Canopy Trail",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Dense foliage splat field and dappled sun shadows."
+    },
+    {
+      "id": "shot-6",
+      "src": "images/gallery/shot-006.jpg",
+      "title": "Beach Shoreline",
+      "category": "gameplay",
+      "tag": "1080p High • Opt3",
+      "desc": "Coastal sand, palm trees, and turquoise shallows."
+    },
+    {
+      "id": "shot-7",
+      "src": "images/gallery/shot-007.jpg",
+      "title": "Storm Phase 1 Gliding",
+      "category": "gameplay",
+      "tag": "Live Match",
+      "desc": "Gliding over open ocean as Storm Phase 1 closes in."
+    },
+    {
+      "id": "shot-8",
+      "src": "images/gallery/shot-008.jpg",
+      "title": "Victory Royale Screen",
+      "category": "gameplay",
+      "tag": "Chat Archive",
+      "desc": "#1 of 50 Players victory screen with confetti & match stats."
+    },
+    {
+      "id": "shot-9",
+      "src": "images/gallery/shot-009.jpg",
+      "title": "Automated Boot Smoke",
+      "category": "gameplay",
+      "tag": "CI Verification",
+      "desc": "Headless SwiftShader boot verification capture."
+    },
+    {
+      "id": "shot-10",
+      "src": "images/gallery/shot-010.jpg",
+      "title": "Playtest — Title Boot",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-11",
+      "src": "images/gallery/shot-011.jpg",
+      "title": "Playtest — Entering Match",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-12",
+      "src": "images/gallery/shot-012.jpg",
+      "title": "Playtest — Warm-Up Beach & Peeler SMG",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-13",
+      "src": "images/gallery/shot-013.jpg",
+      "title": "Playtest — Island Exploration",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-14",
+      "src": "images/gallery/shot-014.jpg",
+      "title": "Playtest — Coastal Combat View",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-15",
+      "src": "images/gallery/shot-015.jpg",
+      "title": "Playtest — Mid-Match Action",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-16",
+      "src": "images/gallery/shot-016.jpg",
+      "title": "Playtest — Terrain & Foliage Run",
+      "category": "playtest",
+      "tag": "Chat Playtest",
+      "desc": "Captured during automated browser playtesting session."
+    },
+    {
+      "id": "shot-17",
+      "src": "images/gallery/shot-017.jpg",
+      "title": "Title Lobby — Rule The Island",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Main lobby screen with volcano backdrop and live Kong rig."
+    },
+    {
+      "id": "shot-18",
+      "src": "images/gallery/shot-018.jpg",
+      "title": "Wardrobe — Fur Customization",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Live 3D character fur customization panel."
+    },
+    {
+      "id": "shot-19",
+      "src": "images/gallery/shot-019.jpg",
+      "title": "Wardrobe — Hats & Headgear",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Live 3D character hats customization panel."
+    },
+    {
+      "id": "shot-20",
+      "src": "images/gallery/shot-020.jpg",
+      "title": "Wardrobe — Tops",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Live 3D character tops customization panel."
+    },
+    {
+      "id": "shot-21",
+      "src": "images/gallery/shot-021.jpg",
+      "title": "Wardrobe — Shorts",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Live 3D character shorts customization panel."
+    },
+    {
+      "id": "shot-22",
+      "src": "images/gallery/shot-022.jpg",
+      "title": "Banana Bucks Shop",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "In-game store UI capture."
+    },
+    {
+      "id": "shot-23",
+      "src": "images/gallery/shot-023.jpg",
+      "title": "Promo Key Art (16:9)",
+      "category": "ui",
+      "tag": "Chat Archive",
+      "desc": "Kong Royale 16:9 promotional banner."
+    },
+    {
+      "id": "shot-24",
+      "src": "images/gallery/shot-024.jpg",
+      "title": "Master Island Aerial (1080p)",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Full island view with volcano, Peel Harbor, and Mango Market."
+    },
+    {
+      "id": "shot-25",
+      "src": "images/gallery/shot-025.jpg",
+      "title": "Mist Falls Waterfall",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Waterfall mist shader and cliff basin reflections."
+    },
+    {
+      "id": "shot-26",
+      "src": "images/gallery/shot-026.jpg",
+      "title": "The Murk Swamp",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Swamp water tinting, reeds, and atmospheric haze."
+    },
+    {
+      "id": "shot-27",
+      "src": "images/gallery/shot-027.jpg",
+      "title": "Coconut Cove Bay",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Wide bay view showing shoreline foam and depth absorption."
+    },
+    {
+      "id": "shot-28",
+      "src": "images/gallery/shot-028.jpg",
+      "title": "Peel Harbor Low Angle",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Close-up screen-space reflections of Banana Co. cranes."
+    },
+    {
+      "id": "shot-29",
+      "src": "images/gallery/shot-029.jpg",
+      "title": "Shallows Looking Down",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Refraction and sandy seabed clarity in shallow water."
+    },
+    {
+      "id": "shot-30",
+      "src": "images/gallery/shot-030.jpg",
+      "title": "Underwater Reef",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Subsurface caustics and underwater fog falloff."
+    },
+    {
+      "id": "shot-31",
+      "src": "images/gallery/shot-031.jpg",
+      "title": "Underwater Looking Up",
+      "category": "water",
+      "tag": "Water Opt • Final",
+      "desc": "Snell's window & surface waves from below."
+    },
+    {
+      "id": "shot-32",
+      "src": "images/gallery/shot-032.jpg",
+      "title": "Water Opt — Phase 1 (Harbor)",
+      "category": "water",
+      "tag": "Phase 1",
+      "desc": "Early water shader optimization pass at Peel Harbor."
+    },
+    {
+      "id": "shot-33",
+      "src": "images/gallery/shot-033.jpg",
+      "title": "Water Opt — Phase 2 (Harbor)",
+      "category": "water",
+      "tag": "Phase 2",
+      "desc": "Intermediate SSR & normal pass at Peel Harbor."
+    },
+    {
+      "id": "shot-34",
+      "src": "images/gallery/shot-034.jpg",
+      "title": "Water Opt — Phase 3 Foam Pass",
+      "category": "water",
+      "tag": "Phase 3",
+      "desc": "Shoreline foam pass optimization at Coconut Cove Bay."
+    },
+    {
+      "id": "shot-35",
+      "src": "images/gallery/shot-035.jpg",
+      "title": "Parity Diff Map — Harbor",
+      "category": "water",
+      "tag": "Pixel Diff",
+      "desc": "Near-black diff proves visual parity after SSR optimization."
+    },
+    {
+      "id": "shot-36",
+      "src": "images/gallery/shot-036.jpg",
+      "title": "Parity Diff Map — Beach",
+      "category": "water",
+      "tag": "Pixel Diff",
+      "desc": "Pixel-level visual diff between baseline and optimized water."
+    },
+    {
+      "id": "shot-37",
+      "src": "images/gallery/shot-037.jpg",
+      "title": "Peel Harbor (1440p High)",
+      "category": "highres",
+      "tag": "1440p High",
+      "desc": "Native 2560×1440 High preset capture."
+    },
+    {
+      "id": "shot-38",
+      "src": "images/gallery/shot-038.jpg",
+      "title": "Jungle Trail (1440p High)",
+      "category": "highres",
+      "tag": "1440p High",
+      "desc": "Native 2560×1440 High foliage & shadows."
+    },
+    {
+      "id": "shot-39",
+      "src": "images/gallery/shot-039.jpg",
+      "title": "Beach Cove (1440p High)",
+      "category": "highres",
+      "tag": "1440p High",
+      "desc": "Native 2560×1440 High coastal scene."
+    },
+    {
+      "id": "shot-40",
+      "src": "images/gallery/shot-040.jpg",
+      "title": "Peel Harbor (1080p Epic)",
+      "category": "highres",
+      "tag": "1080p Epic",
+      "desc": "Epic preset max shadows, post-processing & view distance."
+    },
+    {
+      "id": "shot-41",
+      "src": "images/gallery/shot-041.jpg",
+      "title": "Jungle Trail (1080p Epic)",
+      "category": "highres",
+      "tag": "1080p Epic",
+      "desc": "Epic preset max foliage density & lighting."
+    },
+    {
+      "id": "shot-42",
+      "src": "images/gallery/shot-042.jpg",
+      "title": "Beach Cove (1080p Epic)",
+      "category": "highres",
+      "tag": "1080p Epic",
+      "desc": "Epic preset coastal reflections & foam."
+    },
+    {
+      "id": "shot-43",
+      "src": "images/gallery/shot-043.jpg",
+      "title": "Peel Harbor (Low Preset)",
+      "category": "presets",
+      "tag": "Low Preset",
+      "desc": "FXAA, AO Off, lighter water shader."
+    },
+    {
+      "id": "shot-44",
+      "src": "images/gallery/shot-044.jpg",
+      "title": "Peel Harbor (Ultra Preset)",
+      "category": "presets",
+      "tag": "Ultra Preset",
+      "desc": "TAA, AO On, full SSR reflections & max view distance."
+    },
+    {
+      "id": "shot-45",
+      "src": "images/gallery/shot-045.jpg",
+      "title": "Coconut Cove Beach (Low Preset)",
+      "category": "presets",
+      "tag": "Low Preset",
+      "desc": "FXAA, AO Off, lighter water shader."
+    },
+    {
+      "id": "shot-46",
+      "src": "images/gallery/shot-046.jpg",
+      "title": "Coconut Cove Beach (Ultra Preset)",
+      "category": "presets",
+      "tag": "Ultra Preset",
+      "desc": "TAA, AO On, full SSR reflections & max view distance."
+    },
+    {
+      "id": "shot-47",
+      "src": "images/gallery/shot-047.jpg",
+      "title": "Island Master Aerial (Low Preset)",
+      "category": "presets",
+      "tag": "Low Preset",
+      "desc": "FXAA, AO Off, lighter water shader."
+    },
+    {
+      "id": "shot-48",
+      "src": "images/gallery/shot-048.jpg",
+      "title": "Island Master Aerial (Ultra Preset)",
+      "category": "presets",
+      "tag": "Ultra Preset",
+      "desc": "TAA, AO On, full SSR reflections & max view distance."
+    },
+    {
+      "id": "shot-49",
+      "src": "images/gallery/shot-049.jpg",
+      "title": "The Murk (Low Preset)",
+      "category": "presets",
+      "tag": "Low Preset",
+      "desc": "FXAA, AO Off, lighter water shader."
+    },
+    {
+      "id": "shot-50",
+      "src": "images/gallery/shot-050.jpg",
+      "title": "The Murk (Ultra Preset)",
+      "category": "presets",
+      "tag": "Ultra Preset",
+      "desc": "TAA, AO On, full SSR reflections & max view distance."
+    },
+    {
+      "id": "shot-51",
+      "src": "images/gallery/shot-051.jpg",
+      "title": "Underwater Reef (Low Preset)",
+      "category": "presets",
+      "tag": "Low Preset",
+      "desc": "FXAA, AO Off, lighter water shader."
+    },
+    {
+      "id": "shot-52",
+      "src": "images/gallery/shot-052.jpg",
+      "title": "Underwater Reef (Ultra Preset)",
+      "category": "presets",
+      "tag": "Ultra Preset",
+      "desc": "TAA, AO On, full SSR reflections & max view distance."
+    }
+  ]
 }

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kong Royale — Optimization &amp; Graphics Quality Lab</title>
-  <meta name="description" content="Interactive Low vs Medium vs High vs Ultra visual comparisons, real RTX 5060 gameplay benchmarks, memory budgets, and live optimization test tracking for Kong Royale." />
+  <meta name="description" content="Interactive Low vs Medium vs High vs Ultra visual comparisons, 52+ screenshot archive from across development, real RTX 5060 gameplay benchmarks, and live optimization tracking for Kong Royale." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -21,10 +21,11 @@
         </div>
       </a>
       <nav class="nav">
-        <a href="#visuals">Visuals</a>
+        <a href="#visuals">Compare</a>
+        <a href="#gallery">Gallery <span class="nav-count" id="nav-gallery-count">52</span></a>
         <a href="#presets">Presets</a>
         <a href="#benchmarks">Benchmarks</a>
-        <a href="#budgets">Memory &amp; Size</a>
+        <a href="#budgets">Budgets</a>
         <a href="#roadmap">Test Queue</a>
       </nav>
       <div class="live-pill" title="Active test sweeps are underway — live results update as runs complete">
@@ -39,15 +40,14 @@
     <section class="hero">
       <div class="container">
         <div class="hero-badge">
-          <span class="mono" id="hero-hw">Loading test rig…</span>
+          <span class="mono" id="hero-hw">Intel Core Ultra 7 265K • NVIDIA GeForce RTX 5060 • 32 GB RAM</span>
           <span class="sep">•</span>
-          <span class="mono" id="hero-date">—</span>
+          <span class="mono" id="hero-date">Live Lab</span>
         </div>
         <h1>How <span class="accent">Kong Royale</span> scales across quality tiers &amp; optimizations.</h1>
         <p class="hero-lead">
-          Compare <strong>Low, Medium, High, and Ultra</strong> visuals side-by-side, inspect real frame-time and GPU gains
-          between <code>main</code> and <code>optimization</code>, and track ongoing benchmark sweeps as new hardware and preset
-          tests finish.
+          Compare <strong>Low, Medium, High, and Ultra</strong> visuals side-by-side, browse <strong>52+ real screenshots</strong>
+          captured across development, playtests, and optimization phases, inspect RTX 5060 frame-time gains, and track ongoing benchmark sweeps.
         </p>
 
         <div class="kpi-grid" id="kpi-grid">
@@ -69,7 +69,8 @@
           </div>
           <div class="mode-tabs" role="tablist" aria-label="Comparison mode">
             <button class="tab-btn active" data-compare-mode="presets" role="tab" aria-selected="true">Quality Presets</button>
-            <button class="tab-btn" data-compare-mode="opt" role="tab" aria-selected="false">Main vs. Optimization</button>
+            <button class="tab-btn" data-compare-mode="opt" role="tab" aria-selected="false">Water Opt</button>
+            <button class="tab-btn" data-compare-mode="perf" role="tab" aria-selected="false">Perf Baseline vs Opt3</button>
           </div>
         </div>
 
@@ -105,12 +106,12 @@
             </div>
           </div>
 
-          <!-- Split Slider Stage -->
+          <!-- Split Slider Stage (pre-populated with default srcs for instant first paint) -->
           <div class="compare-stage" id="compare-slider-stage">
             <div class="compare-wrap" id="compare-wrap" tabindex="0" aria-label="Before and after image comparison slider">
-              <img id="img-right" class="compare-img" alt="Right preset capture" />
+              <img id="img-right" class="compare-img" src="images/presets/high/water-harbor-low.jpg" alt="Right preset capture" />
               <div class="compare-clip" id="compare-clip">
-                <img id="img-left" class="compare-img" alt="Left preset capture" />
+                <img id="img-left" class="compare-img" src="images/presets/low/water-harbor-low.jpg" alt="Left preset capture" />
               </div>
               <div class="compare-divider" id="compare-divider">
                 <div class="compare-handle" aria-hidden="true">
@@ -126,21 +127,45 @@
           <div class="side-stage hidden" id="compare-side-stage">
             <figure class="side-pane">
               <div class="side-badge" id="side-label-left">LOW</div>
-              <img id="side-img-left" alt="Left capture" />
+              <img id="side-img-left" src="images/presets/low/water-harbor-low.jpg" alt="Left capture" />
             </figure>
             <figure class="side-pane">
               <div class="side-badge" id="side-label-right">HIGH</div>
-              <img id="side-img-right" alt="Right capture" />
+              <img id="side-img-right" src="images/presets/high/water-harbor-low.jpg" alt="Right capture" />
             </figure>
           </div>
 
           <div class="comparator-footer">
             <div>
-              <strong id="scene-title">—</strong>
-              <span class="muted" id="scene-subtitle">—</span>
+              <strong id="scene-title">Peel Harbor</strong>
+              <span class="muted" id="scene-subtitle">Water surface, screen-space reflections &amp; dock lighting</span>
             </div>
             <div class="muted small">Tip: Drag anywhere on the image or use ← / → arrow keys</div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULL SCREENSHOT ARCHIVE GALLERY -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Full Development &amp; Playtest Archive</div>
+            <h2>Screenshot Gallery (<span id="gallery-total">52</span> Captures)</h2>
+            <p class="section-desc">
+              Every major capture across our optimization runs, quality presets, live playtests, water shader phases, pixel-diff parity maps, and lobby/wardrobe sessions. Click any shot to inspect full-screen.
+            </p>
+          </div>
+          <div class="gallery-search-wrap">
+            <input type="search" id="gallery-search" class="search-input" placeholder="Search shots (e.g. harbor, firefight, low, wardrobe…)" aria-label="Search screenshots" />
+          </div>
+        </div>
+
+        <div class="filter-bar" id="gallery-filters"></div>
+
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- Populated dynamically from data.json -->
         </div>
       </div>
     </section>
@@ -159,82 +184,84 @@
         </div>
 
         <div class="table-card">
-          <table class="data-table preset-table">
-            <thead>
-              <tr>
-                <th>Setting / Metric</th>
-                <th><span class="tier-badge tier-low">Low</span></th>
-                <th><span class="tier-badge tier-med">Medium</span></th>
-                <th><span class="tier-badge tier-high">High</span></th>
-                <th><span class="tier-badge tier-epic">Epic / Ultra</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Anti-Aliasing</strong></td>
-                <td>FXAA</td>
-                <td>TAA</td>
-                <td>TAA</td>
-                <td>TAA</td>
-              </tr>
-              <tr>
-                <td><strong>Ambient Occlusion (AO)</strong></td>
-                <td><span class="muted">Off</span></td>
-                <td>On</td>
-                <td>On</td>
-                <td>On</td>
-              </tr>
-              <tr>
-                <td><strong>Shadows / Post / Effects</strong></td>
-                <td>Low</td>
-                <td>Medium</td>
-                <td>High</td>
-                <td>Epic</td>
-              </tr>
-              <tr>
-                <td><strong>View Distance &amp; Foliage</strong></td>
-                <td>Low</td>
-                <td>Medium</td>
-                <td>High</td>
-                <td>Epic</td>
-              </tr>
-              <tr>
-                <td><strong>Water Reflections &amp; Shaders</strong></td>
-                <td>Lighter water (no SSR)</td>
-                <td>Lighter water / clouds</td>
-                <td>Full water + 3-step SSR</td>
-                <td>Ultra water + full SSR</td>
-              </tr>
-              <tr>
-                <td><strong>Auto 3D Resolution Budget</strong></td>
-                <td>2.7 MP (down to 67% on laptops)</td>
-                <td>3.9 MP (down to 81% on HiDPI)</td>
-                <td>100% Native</td>
-                <td>100% Native</td>
-              </tr>
-              <tr>
-                <td><strong>Auto-Detected GPU Class</strong></td>
-                <td>Integrated, M1, Mobile, Software</td>
-                <td>GTX 1050–16xx, RTX 2050–4050, M1–M3 Pro</td>
-                <td>RTX 3060–5060, RX 6600–7600, M4 / Max</td>
-                <td>RTX 3070+, 4070+, 5070+, RX 6800+</td>
-              </tr>
-              <tr class="highlight-row">
-                <td><strong>RTX 5060 Gameplay Avg (14 Scenes)</strong></td>
-                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
-                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
-                <td><strong class="gain" id="preset-high-avg">—</strong> <span class="muted small">(Measured)</span></td>
-                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
-              </tr>
-              <tr>
-                <td><strong>Visual Captures</strong></td>
-                <td><span class="status-pill done">5 Scenes Ready</span></td>
-                <td><span class="status-pill done">5 Scenes Ready</span></td>
-                <td><span class="status-pill done">5 Scenes Ready</span></td>
-                <td><span class="status-pill done">5 Scenes Ready</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="data-table preset-table">
+              <thead>
+                <tr>
+                  <th>Setting / Metric</th>
+                  <th><span class="tier-badge tier-low">Low</span></th>
+                  <th><span class="tier-badge tier-med">Medium</span></th>
+                  <th><span class="tier-badge tier-high">High</span></th>
+                  <th><span class="tier-badge tier-epic">Epic / Ultra</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Anti-Aliasing</strong></td>
+                  <td>FXAA</td>
+                  <td>TAA</td>
+                  <td>TAA</td>
+                  <td>TAA</td>
+                </tr>
+                <tr>
+                  <td><strong>Ambient Occlusion (AO)</strong></td>
+                  <td><span class="muted">Off</span></td>
+                  <td>On</td>
+                  <td>On</td>
+                  <td>On</td>
+                </tr>
+                <tr>
+                  <td><strong>Shadows / Post / Effects</strong></td>
+                  <td>Low</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                  <td>Epic</td>
+                </tr>
+                <tr>
+                  <td><strong>View Distance &amp; Foliage</strong></td>
+                  <td>Low</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                  <td>Epic</td>
+                </tr>
+                <tr>
+                  <td><strong>Water Reflections &amp; Shaders</strong></td>
+                  <td>Lighter water (no SSR)</td>
+                  <td>Lighter water / clouds</td>
+                  <td>Full water + 3-step SSR</td>
+                  <td>Ultra water + full SSR</td>
+                </tr>
+                <tr>
+                  <td><strong>Auto 3D Resolution Budget</strong></td>
+                  <td>2.7 MP (down to 67% on laptops)</td>
+                  <td>3.9 MP (down to 81% on HiDPI)</td>
+                  <td>100% Native</td>
+                  <td>100% Native</td>
+                </tr>
+                <tr>
+                  <td><strong>Auto-Detected GPU Class</strong></td>
+                  <td>Integrated, M1, Mobile, Software</td>
+                  <td>GTX 1050–16xx, RTX 2050–4050, M1–M3 Pro</td>
+                  <td>RTX 3060–5060, RX 6600–7600, M4 / Max</td>
+                  <td>RTX 3070+, 4070+, 5070+, RX 6800+</td>
+                </tr>
+                <tr class="highlight-row">
+                  <td><strong>RTX 5060 Gameplay Avg (14 Scenes)</strong></td>
+                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                  <td><strong class="gain" id="preset-high-avg">—</strong> <span class="muted small">(Measured)</span></td>
+                  <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Visual Captures</strong></td>
+                  <td><span class="status-pill done">5 Scenes Ready</span></td>
+                  <td><span class="status-pill done">5 Scenes Ready</span></td>
+                  <td><span class="status-pill done">5 Scenes Ready</span></td>
+                  <td><span class="status-pill done">5 Scenes Ready</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -432,6 +459,30 @@
       </div>
     </section>
   </main>
+
+  <!-- FULLSCREEN LIGHTBOX -->
+  <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+    <div class="lightbox-backdrop" id="lb-backdrop"></div>
+    <div class="lightbox-dialog">
+      <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+      <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous screenshot">‹</button>
+      <button class="lb-nav lb-next" id="lb-next" aria-label="Next screenshot">›</button>
+      <div class="lb-img-wrap">
+        <img id="lb-img" alt="" />
+      </div>
+      <div class="lb-caption">
+        <div>
+          <span class="lb-tag" id="lb-tag"></span>
+          <strong id="lb-title"></strong>
+          <p id="lb-desc" class="muted small"></p>
+        </div>
+        <div class="lb-actions">
+          <span class="mono muted small" id="lb-counter"></span>
+          <a id="lb-open" class="lb-link" target="_blank" rel="noopener">Open Full Image ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="container footer-inner">
