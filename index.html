@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kong Royale — Optimization &amp; Graphics Quality Lab</title>
+  <meta name="description" content="Interactive Low vs Medium vs High vs Ultra visual comparisons, real RTX 5060 gameplay benchmarks, memory budgets, and live optimization test tracking for Kong Royale." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">KR</span>
+        <div>
+          <div class="brand-title">Kong Royale</div>
+          <div class="brand-sub">Optimization &amp; Quality Lab</div>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="#visuals">Visuals</a>
+        <a href="#presets">Presets</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#budgets">Memory &amp; Size</a>
+        <a href="#roadmap">Test Queue</a>
+      </nav>
+      <div class="live-pill" title="Active test sweeps are underway — live results update as runs complete">
+        <span class="pulse-dot"></span>
+        <span>Tests Running</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="mono" id="hero-hw">Loading test rig…</span>
+          <span class="sep">•</span>
+          <span class="mono" id="hero-date">—</span>
+        </div>
+        <h1>How <span class="accent">Kong Royale</span> scales across quality tiers &amp; optimizations.</h1>
+        <p class="hero-lead">
+          Compare <strong>Low, Medium, High, and Ultra</strong> visuals side-by-side, inspect real frame-time and GPU gains
+          between <code>main</code> and <code>optimization</code>, and track ongoing benchmark sweeps as new hardware and preset
+          tests finish.
+        </p>
+
+        <div class="kpi-grid" id="kpi-grid">
+          <!-- Populated from data.json -->
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE VISUAL COMPARATOR -->
+    <section class="section" id="visuals">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Interactive Visual Comparison</div>
+            <h2>Low vs. Medium vs. High vs. Ultra</h2>
+            <p class="section-desc">
+              Drag the divider to inspect water screen-space reflections, shoreline foam, foliage density, and lighting across real in-game captures.
+            </p>
+          </div>
+          <div class="mode-tabs" role="tablist" aria-label="Comparison mode">
+            <button class="tab-btn active" data-compare-mode="presets" role="tab" aria-selected="true">Quality Presets</button>
+            <button class="tab-btn" data-compare-mode="opt" role="tab" aria-selected="false">Main vs. Optimization</button>
+          </div>
+        </div>
+
+        <div class="comparator-card">
+          <div class="comparator-toolbar">
+            <div class="scene-pills" id="scene-pills"></div>
+            <div class="toolbar-right">
+              <div class="preset-pickers" id="preset-pickers">
+                <label class="picker">
+                  <span>Left</span>
+                  <select id="left-preset">
+                    <option value="low" selected>Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="ultra">Ultra</option>
+                  </select>
+                </label>
+                <button class="icon-btn" id="swap-presets" title="Swap Left &amp; Right">⇄</button>
+                <label class="picker">
+                  <span>Right</span>
+                  <select id="right-preset">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high" selected>High</option>
+                    <option value="ultra">Ultra</option>
+                  </select>
+                </label>
+              </div>
+              <div class="view-toggle">
+                <button class="view-btn active" data-view="slider">Split Slider</button>
+                <button class="view-btn" data-view="side">Side by Side</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Split Slider Stage -->
+          <div class="compare-stage" id="compare-slider-stage">
+            <div class="compare-wrap" id="compare-wrap" tabindex="0" aria-label="Before and after image comparison slider">
+              <img id="img-right" class="compare-img" alt="Right preset capture" />
+              <div class="compare-clip" id="compare-clip">
+                <img id="img-left" class="compare-img" alt="Left preset capture" />
+              </div>
+              <div class="compare-divider" id="compare-divider">
+                <div class="compare-handle" aria-hidden="true">
+                  <span>‹</span><span>›</span>
+                </div>
+              </div>
+              <div class="compare-label label-left" id="label-left">LOW</div>
+              <div class="compare-label label-right" id="label-right">HIGH</div>
+            </div>
+          </div>
+
+          <!-- Side-by-side Stage -->
+          <div class="side-stage hidden" id="compare-side-stage">
+            <figure class="side-pane">
+              <div class="side-badge" id="side-label-left">LOW</div>
+              <img id="side-img-left" alt="Left capture" />
+            </figure>
+            <figure class="side-pane">
+              <div class="side-badge" id="side-label-right">HIGH</div>
+              <img id="side-img-right" alt="Right capture" />
+            </figure>
+          </div>
+
+          <div class="comparator-footer">
+            <div>
+              <strong id="scene-title">—</strong>
+              <span class="muted" id="scene-subtitle">—</span>
+            </div>
+            <div class="muted small">Tip: Drag anywhere on the image or use ← / → arrow keys</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESETS BREAKDOWN -->
+    <section class="section" id="presets">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Graphics Engine Configuration</div>
+            <h2>What Each Quality Preset Changes</h2>
+            <p class="section-desc">
+              Exact settings from <code>client/src/engine/display.ts</code>. First-visit GPU classification picks a conservative tier and confirms with a 2-second GPU bench.
+            </p>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <table class="data-table preset-table">
+            <thead>
+              <tr>
+                <th>Setting / Metric</th>
+                <th><span class="tier-badge tier-low">Low</span></th>
+                <th><span class="tier-badge tier-med">Medium</span></th>
+                <th><span class="tier-badge tier-high">High</span></th>
+                <th><span class="tier-badge tier-epic">Epic / Ultra</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Anti-Aliasing</strong></td>
+                <td>FXAA</td>
+                <td>TAA</td>
+                <td>TAA</td>
+                <td>TAA</td>
+              </tr>
+              <tr>
+                <td><strong>Ambient Occlusion (AO)</strong></td>
+                <td><span class="muted">Off</span></td>
+                <td>On</td>
+                <td>On</td>
+                <td>On</td>
+              </tr>
+              <tr>
+                <td><strong>Shadows / Post / Effects</strong></td>
+                <td>Low</td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>Epic</td>
+              </tr>
+              <tr>
+                <td><strong>View Distance &amp; Foliage</strong></td>
+                <td>Low</td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>Epic</td>
+              </tr>
+              <tr>
+                <td><strong>Water Reflections &amp; Shaders</strong></td>
+                <td>Lighter water (no SSR)</td>
+                <td>Lighter water / clouds</td>
+                <td>Full water + 3-step SSR</td>
+                <td>Ultra water + full SSR</td>
+              </tr>
+              <tr>
+                <td><strong>Auto 3D Resolution Budget</strong></td>
+                <td>2.7 MP (down to 67% on laptops)</td>
+                <td>3.9 MP (down to 81% on HiDPI)</td>
+                <td>100% Native</td>
+                <td>100% Native</td>
+              </tr>
+              <tr>
+                <td><strong>Auto-Detected GPU Class</strong></td>
+                <td>Integrated, M1, Mobile, Software</td>
+                <td>GTX 1050–16xx, RTX 2050–4050, M1–M3 Pro</td>
+                <td>RTX 3060–5060, RX 6600–7600, M4 / Max</td>
+                <td>RTX 3070+, 4070+, 5070+, RX 6800+</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>RTX 5060 Gameplay Avg (14 Scenes)</strong></td>
+                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+                <td><strong class="gain" id="preset-high-avg">—</strong> <span class="muted small">(Measured)</span></td>
+                <td><span class="status-pill pending"><span class="pulse-dot sm"></span>Running Tests…</span></td>
+              </tr>
+              <tr>
+                <td><strong>Visual Captures</strong></td>
+                <td><span class="status-pill done">5 Scenes Ready</span></td>
+                <td><span class="status-pill done">5 Scenes Ready</span></td>
+                <td><span class="status-pill done">5 Scenes Ready</span></td>
+                <td><span class="status-pill done">5 Scenes Ready</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENCHMARKS -->
+    <section class="section" id="benchmarks">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Measured Gameplay Benchmarks (High Preset)</div>
+            <h2><code>main</code> vs. <code>optimization</code> Branch</h2>
+            <p class="section-desc" id="bench-desc">
+              30-second steady-state runs (3 runs averaged per scene) on Intel Core Ultra 7 265K + NVIDIA GeForce RTX 5060.
+            </p>
+          </div>
+          <div class="bench-controls">
+            <div class="metric-tabs" id="metric-tabs">
+              <button class="tab-btn active" data-metric="avgFps">Avg FPS</button>
+              <button class="tab-btn" data-metric="low1Fps">1% Low FPS</button>
+              <button class="tab-btn" data-metric="gpuMs">GPU ms</button>
+              <button class="tab-btn" data-metric="cpuMs">CPU ms</button>
+            </div>
+            <label class="checkbox-pill">
+              <input type="checkbox" id="hide-title" checked />
+              <span>Gameplay scenes only</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-legend">
+            <span><i class="swatch swatch-main"></i> <code>main</code> baseline</span>
+            <span><i class="swatch swatch-opt"></i> <code>optimization</code> branch</span>
+            <span class="muted small" id="chart-direction-note">Higher is better</span>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+
+        <div class="table-card" style="margin-top: 20px;">
+          <div class="table-header-row">
+            <h3>Full Scene Breakdown</h3>
+            <span class="muted small">Click any column header to sort</span>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table sortable" id="bench-table">
+              <thead>
+                <tr>
+                  <th data-sort="label">Scene</th>
+                  <th data-sort="mainFps">Main FPS</th>
+                  <th data-sort="optFps">Opt FPS</th>
+                  <th data-sort="fpsDelta">FPS Δ</th>
+                  <th data-sort="low1Delta">1% Low Δ</th>
+                  <th data-sort="gpuDelta">GPU ms</th>
+                  <th data-sort="calls">Draw Calls</th>
+                  <th data-sort="tris">Triangles</th>
+                </tr>
+              </thead>
+              <tbody id="bench-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMORY & DOWNLOAD BUDGETS -->
+    <section class="section" id="budgets">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">CI-Enforced Engineering Budgets</div>
+            <h2>Download Size &amp; Memory Guardrails</h2>
+            <p class="section-desc">
+              Every pull request is gated by automated size and memory budgets that can only ratchet downward over time.
+            </p>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>Browser Download Budgets (Gzip)</h3>
+              <span class="status-pill done">CI Enforced</span>
+            </div>
+            <p class="muted small">From <code>tools/size-budgets.json</code> — measured on production <code>dist/</code> builds.</p>
+            <div class="budget-bars" id="size-budgets"></div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>Low-Memory POI Streaming Budgets</h3>
+              <span class="status-pill done">4-POI Cap</span>
+            </div>
+            <p class="muted small">From <code>tools/memory-lowmem-budgets.json</code> (<code>?lowmem=1&amp;geofree=1&amp;farimp=1</code>).</p>
+            <div class="mem-grid" id="mem-budgets"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP & PENDING TESTS -->
+    <section class="section" id="roadmap">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Live Optimization Tracker</div>
+            <h2>Completed Wins &amp; Active Test Queue</h2>
+            <p class="section-desc">
+              We are actively running additional preset sweeps and hardware baselines. Verified results appear above as soon as each run completes.
+            </p>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>Completed &amp; Verified</h3>
+              <span class="status-pill done">Landed</span>
+            </div>
+            <ul class="track-list">
+              <li>
+                <div class="track-top">
+                  <strong>PERF-01: Procedural Character Animation Budget</strong>
+                  <span class="tag tag-done">Done</span>
+                </div>
+                <p>Min-tier remote kongs re-pose at 30 Hz and off-screen kongs at 10 Hz while preserving rigid body tracking, shots, and shadows.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>PERF-05: Water SSR Binary Refinement</strong>
+                  <span class="tag tag-done">Done</span>
+                </div>
+                <p>High-tier screen-space water reflections refined in 3 binary steps — cutting GPU water cost up to 11.2% with full visual parity.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>Low-Memory POI Streaming &amp; Eviction</strong>
+                  <span class="tag tag-done">Done</span>
+                </div>
+                <p>Model-checked with TLA+ and capped at 4 resident POIs in match to prevent OOM on constrained devices.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>Match-to-Match Memory Leak Fixes &amp; Context Restore</strong>
+                  <span class="tag tag-done">Done</span>
+                </div>
+                <p>Resource scopes cleanly release GPU textures, buffers, and render targets between matches; CI verifies zero leak across 3 back-to-back matches.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <h3>In-Progress Tests &amp; Open Tracks</h3>
+              <span class="status-pill pending"><span class="pulse-dot sm"></span>Running</span>
+            </div>
+            <ul class="track-list">
+              <li>
+                <div class="track-top">
+                  <strong>Low / Medium / Epic Full FPS &amp; Pacing Sweeps</strong>
+                  <span class="tag tag-running">Testing Now</span>
+                </div>
+                <p>Collecting 15-scene steady-state Avg FPS, 1% Low, and GPU/CPU frame times across Low, Medium, and Epic tiers.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>Laptop / Integrated GPU &amp; Auto-Res Baselines</strong>
+                  <span class="tag tag-running">Testing Now</span>
+                </div>
+                <p>Validating 2.7 MP / 3.9 MP auto-resolution scaling on Apple Silicon, Intel Iris Xe, and mid-range laptop GPUs.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>PERF-02 &amp; PERF-03: Interaction &amp; Loot Spatial Indexing</strong>
+                  <span class="tag tag-open">Queued</span>
+                </div>
+                <p>Caching per-frame HUD interaction queries and adding deterministic, allocation-free spatial lookup for loot pickups.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>PERF-04: Separate Tree &amp; Understory Splat Budgets</strong>
+                  <span class="tag tag-open">Queued</span>
+                </div>
+                <p>Independent density sweeps for canopy trees vs. understory foliage to cut jungle overdraw without crown holes.</p>
+              </li>
+              <li>
+                <div class="track-top">
+                  <strong>Cold &amp; Warm Startup Load Optimization</strong>
+                  <span class="tag tag-running">Investigating</span>
+                </div>
+                <p>Measured cold boot currently ~19.7s to title (50.8s full stream on main); reducing script eval &amp; POI build time.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Kong Royale Optimization Lab</strong>
+        <span class="muted"> — Public performance &amp; visual quality showcase</span>
+      </div>
+      <div class="mono muted small" id="footer-commits">—</div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
